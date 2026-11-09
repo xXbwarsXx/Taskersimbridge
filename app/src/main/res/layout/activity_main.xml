@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="24dp" android:gravity="center_horizontal">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Tasker SIM Bridge" android:textSize="24sp" android:textStyle="bold" />
+    <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" android:text="Shizuku állapot ellenőrzése…" android:textSize="16sp" />
+    <Button android:id="@+id/grant" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" android:text="Shizuku engedély ellenőrzése / kérése" />
+    <Button android:id="@+id/sim1" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Mobiladat: SIM 1" />
+    <Button android:id="@+id/sim2" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Mobiladat: SIM 2" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" android:text="A Tasker külön SET_SIM_1 és SET_SIM_2 Intenttel hívhatja. A művelet nem toggle: mindig a kért SIM-et állítja be." />
+</LinearLayout>
