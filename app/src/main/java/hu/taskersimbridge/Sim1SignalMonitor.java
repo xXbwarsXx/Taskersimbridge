@@ -49,6 +49,36 @@ final class Sim1SignalMonitor {
         }
     };
 
+    /**
+     * Returns Android's 0..4 signal-quality level for physical SIM slot 1.
+     * Returns -1 if SIM 1 or its signal reading is unavailable.
+     */
+    static int getSim1SignalLevel(Context context) {
+        if (Build.VERSION.SDK_INT < 26) return -1;
+        try {
+            SubscriptionManager sm = context.getSystemService(SubscriptionManager.class);
+            List<SubscriptionInfo> infos = sm.getActiveSubscriptionInfoList();
+            int subId = -1;
+            if (infos != null) {
+                for (SubscriptionInfo info : infos) {
+                    if (info.getSimSlotIndex() == 0) {
+                        subId = info.getSubscriptionId();
+                        break;
+                    }
+                }
+            }
+            if (subId < 0) return -1;
+            TelephonyManager tm = context.getSystemService(TelephonyManager.class)
+                    .createForSubscriptionId(subId);
+            SignalStrength ss = tm.getSignalStrength();
+            return ss == null ? -1 : ss.getLevel();
+        } catch (SecurityException e) {
+            throw e;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
     Sim1SignalMonitor(Context context, Consumer<String> output) {
         this.context = context.getApplicationContext();
         this.output = output;

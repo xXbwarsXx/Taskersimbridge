@@ -24,6 +24,7 @@
                 <action android:name="hu.taskersimbridge.SET_SIM_1" />
                 <action android:name="hu.taskersimbridge.SET_SIM_2" />
                 <action android:name="hu.taskersimbridge.GET_STATUS" />
+                <action android:name="hu.taskersimbridge.GET_SIM1_SIGNAL" />
             </intent-filter>
         </receiver>
     </application>

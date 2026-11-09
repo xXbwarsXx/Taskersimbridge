@@ -1,39 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#F3F6FA" android:fillViewport="true">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:padding="20dp">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="TASKER SIM BRIDGE" android:textColor="#52647A" android:textSize="12sp"
-            android:textStyle="bold" android:letterSpacing="0.12" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="6dp" android:text="SIM-kezelő" android:textColor="#14243A"
-            android:textSize="30sp" android:textStyle="bold" />
-        <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="14dp" android:padding="16dp" android:background="#FFFFFF"
-            android:text="Shizuku állapot ellenőrzése…" android:textColor="#24364D" android:textSize="15sp" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" android:text="SIM 1 – HÁLÓZATI DIAGNOSZTIKA"
-            android:textColor="#52647A" android:textSize="12sp" android:textStyle="bold" />
-        <TextView android:id="@+id/signal_status" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" android:padding="18dp" android:background="#FFFFFF"
-            android:text="SIM 1 diagnosztika: indulás…" android:textColor="#172B45"
-            android:textSize="16sp" android:lineSpacingExtra="5dp" />
-        <Button android:id="@+id/grant" android:layout_width="match_parent" android:layout_height="54dp"
-            android:layout_marginTop="20dp" android:text="SHIZUKU ENGEDÉLY ELLENŐRZÉSE"
-            android:textAllCaps="false" android:textColor="#FFFFFF" android:backgroundTint="#245B9B" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="22dp" android:text="MOBILADAT-SIM KIVÁLASZTÁSA"
-            android:textColor="#52647A" android:textSize="12sp" android:textStyle="bold" />
-        <Button android:id="@+id/sim1" android:layout_width="match_parent" android:layout_height="56dp"
-            android:layout_marginTop="8dp" android:text="Mobiladat használata: SIM 1"
-            android:textAllCaps="false" android:textColor="#FFFFFF" android:backgroundTint="#167D75" />
-        <Button android:id="@+id/sim2" android:layout_width="match_parent" android:layout_height="56dp"
-            android:layout_marginTop="8dp" android:text="Mobiladat használata: SIM 2"
-            android:textAllCaps="false" android:textColor="#FFFFFF" android:backgroundTint="#167D75" />
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" android:layout_marginBottom="12dp"
-            android:text="A diagnosztika 5 másodpercenként frissül, amíg az alkalmazás nyitva van. Az Android jelszintje nem azonos a Samsung térerőcsíkjaival.\n\nTasker: SET_SIM_1 és SET_SIM_2 Intentekkel vezérelhető."
-            android:textColor="#66778C" android:textSize="13sp" />
+    android:id="@+id/root_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F6FA"
+    android:fillViewport="true">
+    <LinearLayout
+        android:id="@+id/content_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/eyebrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TASKER SIM BRIDGE"
+            android:textColor="#52647A"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="SIM-kezelő"
+            android:textColor="#14243A"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/theme_toggle"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Sötét mód"
+                android:textAllCaps="false" />
+
+            <Spinner
+                android:id="@+id/theme_palette"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:entries="@array/theme_palettes"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:padding="16dp"
+            android:background="#FFFFFF"
+            android:text="Shizuku állapot ellenőrzése…"
+            android:textColor="#24364D"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/diagnostic_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="SIM 1 – HÁLÓZATI DIAGNOSZTIKA"
+            android:textColor="#52647A"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/signal_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:text="SIM 1 diagnosztika: indulás…"
+            android:textColor="#172B45"
+            android:textSize="16sp"
+            android:lineSpacingExtra="5dp" />
+
+        <Button
+            android:id="@+id/grant"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="20dp"
+            android:text="Shizuku engedély ellenőrzése"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/sim_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="MOBILADAT-SIM KIVÁLASZTÁSA"
+            android:textColor="#52647A"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sim1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:text="Mobiladat használata: SIM 1"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/sim2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:text="Mobiladat használata: SIM 2"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="A diagnosztika 5 másodpercenként frissül, amíg az alkalmazás nyitva van. Az Android jelszintje nem azonos a Samsung térerőcsíkjaival.\n\nTasker: SET_SIM_1, SET_SIM_2, GET_STATUS és GET_SIM1_SIGNAL parancsokkal vezérelhető."
+            android:textColor="#66778C"
+            android:textSize="13sp" />
     </LinearLayout>
 </ScrollView>

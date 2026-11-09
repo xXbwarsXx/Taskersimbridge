@@ -55,3 +55,10 @@ On Android 12+, `TelephonyCallback` is used with a `TelephonyManager` scoped to 
 
 ### 1.1.1 build fix
 Removed the invalid ServiceState.getDataNetworkType() call. Registered data-network type is polled from the subscription-scoped TelephonyManager, which is the supported API used by this project.
+
+
+## Version 1.2.0: Tasker signal query and appearance
+- Added `GET_SIM1_SIGNAL`, which returns the SIM 1 Android signal quality bucket as a numeric string (`0` to `4`, or `-1` if unavailable).
+- The result is broadcast with action `hu.taskersimbridge.SIM1_SIGNAL_RESULT` and string extra `result`. This is separate from the general command result broadcast.
+- Added in-app dark-mode toggle and five palettes: Material You (system accent where available), Ocean, Forest, Violet, and Sunset.
+- Appearance selection is saved locally.

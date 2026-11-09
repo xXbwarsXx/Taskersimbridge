@@ -13,6 +13,7 @@ public final class SimCommandReceiver extends BroadcastReceiver {
     public static final String ACTION_SIM1 = "hu.taskersimbridge.SET_SIM_1";
     public static final String ACTION_SIM2 = "hu.taskersimbridge.SET_SIM_2";
     public static final String ACTION_STATUS = "hu.taskersimbridge.GET_STATUS";
+    public static final String ACTION_SIM1_SIGNAL = "hu.taskersimbridge.GET_SIM1_SIGNAL";
     private static final ExecutorService WORK = Executors.newSingleThreadExecutor();
 
     @Override public void onReceive(Context context, Intent intent) {
@@ -24,6 +25,10 @@ public final class SimCommandReceiver extends BroadcastReceiver {
                 if (ACTION_SIM1.equals(action)) result = TelephonyController.setSlot(context, 0);
                 else if (ACTION_SIM2.equals(action)) result = TelephonyController.setSlot(context, 1);
                 else if (ACTION_STATUS.equals(action)) result = TelephonyController.status(context);
+                else if (ACTION_SIM1_SIGNAL.equals(action)) {
+                    int level = Sim1SignalMonitor.getSim1SignalLevel(context);
+                    result = Integer.toString(level);
+                }
                 else result = "Ismeretlen parancs.";
                 Log.i("TaskerSIMBridge", result);
             } catch (Throwable e) {
@@ -32,9 +37,15 @@ public final class SimCommandReceiver extends BroadcastReceiver {
             }
             Bundle extras = new Bundle();
             extras.putString("result", result);
-            Intent response = new Intent("hu.taskersimbridge.RESULT");
-            response.putExtras(extras);
-            context.sendBroadcast(response);
+            if (ACTION_SIM1_SIGNAL.equals(action)) {
+                Intent response = new Intent("hu.taskersimbridge.SIM1_SIGNAL_RESULT");
+                response.putExtras(extras);
+                context.sendBroadcast(response);
+            } else {
+                Intent response = new Intent("hu.taskersimbridge.RESULT");
+                response.putExtras(extras);
+                context.sendBroadcast(response);
+            }
             pending.finish();
         });
     }

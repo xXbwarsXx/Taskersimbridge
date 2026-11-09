@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Tasker SIM Bridge</string>
+    <string-array name="theme_palettes">
+        <item>Material You</item>
+        <item>Óceán</item>
+        <item>Erdő</item>
+        <item>Ibolya</item>
+        <item>Naplemente</item>
+    </string-array>
 </resources>
