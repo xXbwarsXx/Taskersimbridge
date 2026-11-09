@@ -29,7 +29,7 @@ For status, use `hu.taskersimbridge.GET_STATUS`.
 The helper also sends a broadcast `hu.taskersimbridge.RESULT` with string extra `result` when it completes. Tasker can optionally listen for this action using Event → System → Intent Received. On failure, the result starts with `HIBA:`; details are also written to Logcat under `TaskerSIMBridge`.
 
 ## Notes / limitations
-- Android's internal telephony Binder APIs are private and can change across Android/One UI releases. This is designed around Android 15/API 35 and the API signatures used by DataSimTile; it still needs device testing on the target Galaxy S25 / One UI 8 build.
+- Android's internal telephony Binder APIs are private and can change across Android/One UI releases. This is designed around Android 16/API 36 and the API signatures used by DataSimTile; it still needs device testing on the target Galaxy S25 / One UI 8 build.
 - Shizuku must be running and its permission must remain granted. On non-root Shizuku, after a reboot you generally need to start Shizuku again using Wireless debugging.
 - The receiver is exported so Tasker can invoke it. Only install this helper from a source you trust; any app able to send these explicit broadcasts could request a SIM change.
 - This source project has not been compiled or device-tested in this environment. Build it with Android Studio before installing; do not treat it as a verified APK.
