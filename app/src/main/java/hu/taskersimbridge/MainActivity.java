@@ -3,6 +3,8 @@ package hu.taskersimbridge;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.graphics.Color;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,18 +13,49 @@ import rikka.shizuku.Shizuku;
 
 public final class MainActivity extends Activity {
     private TextView status;
+    private TextView signalStatus;
+    private Sim1SignalMonitor signalMonitor;
+    private static final int PHONE_STATE_REQUEST = 2002;
     private final Shizuku.OnRequestPermissionResultListener permissionListener = (requestCode, grantResult) -> refresh();
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
+        getWindow().setStatusBarColor(Color.rgb(18, 30, 48));
+        getWindow().setNavigationBarColor(Color.rgb(18, 30, 48));
+        getWindow().getDecorView().setSystemUiVisibility(0); // light icons on dark system bars
         setContentView(R.layout.activity_main);
         status = findViewById(R.id.status);
+        signalStatus = findViewById(R.id.signal_status);
+        signalMonitor = new Sim1SignalMonitor(this, text -> runOnUiThread(() -> signalStatus.setText(text)));
         Button grant = findViewById(R.id.grant);
         grant.setOnClickListener(v -> requestShizuku());
         findViewById(R.id.sim1).setOnClickListener(v -> runSet(0));
         findViewById(R.id.sim2).setOnClickListener(v -> runSet(1));
         Shizuku.addRequestPermissionResultListener(permissionListener);
         refresh();
+        ensurePhoneStatePermission();
+    }
+
+    private void ensurePhoneStatePermission() {
+        if (checkSelfPermission(android.Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE},
+                    PHONE_STATE_REQUEST);
+        } else {
+            signalMonitor.start();
+        }
+    }
+
+    @Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                      int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PHONE_STATE_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                signalMonitor.start();
+            } else {
+                signalStatus.setText("A SIM 1 térerő és hálózattípus olvasásához engedélyezd a Telefon állapotának hozzáférését.");
+            }
+        }
     }
 
     private void requestShizuku() {
@@ -59,6 +92,7 @@ public final class MainActivity extends Activity {
     }
 
     @Override protected void onDestroy() {
+        if (signalMonitor != null) signalMonitor.stop();
         Shizuku.removeRequestPermissionResultListener(permissionListener);
         super.onDestroy();
     }
