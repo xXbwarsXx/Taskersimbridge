@@ -33,3 +33,13 @@ The helper also sends a broadcast `hu.taskersimbridge.RESULT` with string extra 
 - Shizuku must be running and its permission must remain granted. On non-root Shizuku, after a reboot you generally need to start Shizuku again using Wireless debugging.
 - The receiver is exported so Tasker can invoke it. Only install this helper from a source you trust; any app able to send these explicit broadcasts could request a SIM change.
 - This source project has not been compiled or device-tested in this environment. Build it with Android Studio before installing; do not treat it as a verified APK.
+
+
+## Phase 1: SIM 1 signal/network diagnostic
+This revision adds a read-only SIM 1 diagnostic to the app:
+- requests Android `READ_PHONE_STATE` permission;
+- monitors the subscription in physical slot 1;
+- displays signal level (Android 0–4) and network class (2G/3G/4G/4G+/5G);
+- does not switch the data SIM automatically.
+
+On Android 12+, `TelephonyCallback` is used with a `TelephonyManager` scoped to SIM slot 1. The network label uses `TelephonyDisplayInfo` so LTE carrier aggregation (4G+) and 5G display overrides can be distinguished where the modem exposes them.
