@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.CellSignalStrength;
-import android.telephony.ServiceState;
 import android.telephony.SignalStrength;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
@@ -87,17 +86,10 @@ final class Sim1SignalMonitor {
 
     private final class Sim1Callback extends TelephonyCallback implements
             TelephonyCallback.SignalStrengthsListener,
-            TelephonyCallback.DisplayInfoListener,
-            TelephonyCallback.ServiceStateListener {
+            TelephonyCallback.DisplayInfoListener {
         @Override public void onSignalStrengthsChanged(SignalStrength ss) { updateSignal(ss); publish(); }
         @Override public void onDisplayInfoChanged(TelephonyDisplayInfo info) {
             displayNetwork = displayNetworkLabel(info); publish();
-        }
-        @Override public void onServiceStateChanged(ServiceState state) {
-            if (state != null && state.getDataNetworkType() != TelephonyManager.NETWORK_TYPE_UNKNOWN) {
-                registeredNetwork = basicNetworkLabel(state.getDataNetworkType());
-            }
-            publish();
         }
     }
 
