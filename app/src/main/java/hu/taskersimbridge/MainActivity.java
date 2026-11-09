@@ -11,6 +11,7 @@ import rikka.shizuku.Shizuku;
 
 public final class MainActivity extends Activity {
     private TextView status;
+    private TextView signalStatus;
     private Sim1SignalMonitor signalMonitor;
     private static final int PHONE_STATE_REQUEST = 2002;
     private final Shizuku.OnRequestPermissionResultListener permissionListener = (requestCode, grantResult) -> refresh();
@@ -19,7 +20,8 @@ public final class MainActivity extends Activity {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
         status = findViewById(R.id.status);
-        signalMonitor = new Sim1SignalMonitor(this, text -> runOnUiThread(() -> status.setText(text)));
+        signalStatus = findViewById(R.id.signal_status);
+        signalMonitor = new Sim1SignalMonitor(this, text -> runOnUiThread(() -> signalStatus.setText(text)));
         Button grant = findViewById(R.id.grant);
         grant.setOnClickListener(v -> requestShizuku());
         findViewById(R.id.sim1).setOnClickListener(v -> runSet(0));
@@ -46,7 +48,7 @@ public final class MainActivity extends Activity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 signalMonitor.start();
             } else {
-                status.setText("A SIM 1 térerő és hálózattípus olvasásához engedélyezd a Telefon állapotának hozzáférését.");
+                signalStatus.setText("A SIM 1 térerő és hálózattípus olvasásához engedélyezd a Telefon állapotának hozzáférését.");
             }
         }
     }

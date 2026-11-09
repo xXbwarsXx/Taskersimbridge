@@ -5,6 +5,9 @@
         android:text="Tasker SIM Bridge" android:textSize="24sp" android:textStyle="bold" />
     <TextView android:id="@+id/status" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_marginTop="16dp" android:text="Shizuku állapot ellenőrzése…" android:textSize="16sp" />
+    <TextView android:id="@+id/signal_status" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" android:padding="12dp"
+        android:text="SIM 1 diagnosztika: indulás…" android:textSize="18sp" />
     <Button android:id="@+id/grant" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_marginTop="24dp" android:text="Shizuku engedély ellenőrzése / kérése" />
     <Button android:id="@+id/sim1" android:layout_width="match_parent" android:layout_height="wrap_content"
